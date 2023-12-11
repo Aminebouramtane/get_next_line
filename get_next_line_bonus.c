@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: abouramt <abouramt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/06 16:01:54 by abouramt          #+#    #+#             */
-/*   Updated: 2023/12/11 14:52:14 by abouramt         ###   ########.fr       */
+/*   Created: 2023/12/07 10:21:36 by abouramt          #+#    #+#             */
+/*   Updated: 2023/12/11 14:54:14 by abouramt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*get_my_line(int fd, char *str)
 {
@@ -99,15 +99,16 @@ char	*after_new_line(char *str)
 
 char	*get_next_line(int fd)
 {
-	static char	*str;
+	static char	*str[OPEN_MAX];
 	char		*res;
 
-	if (BUFFER_SIZE <= 0 || fd < 0 || BUFFER_SIZE >= 2147483647)
+	if (BUFFER_SIZE <= 0 || fd < 0 ||
+		fd >= OPEN_MAX || BUFFER_SIZE >= 2147483647)
 		return (NULL);
-	str = get_my_line(fd, str);
-	if (!str)
+	str[fd] = get_my_line(fd, str[fd]);
+	if (!str[fd])
 		return (NULL);
-	res = return_my_line(str);
-	str = after_new_line(str);
+	res = return_my_line(str[fd]);
+	str[fd] = after_new_line(str[fd]);
 	return (res);
 }
