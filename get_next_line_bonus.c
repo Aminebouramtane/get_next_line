@@ -6,7 +6,7 @@
 /*   By: abouramt <abouramt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/07 10:21:36 by abouramt          #+#    #+#             */
-/*   Updated: 2023/12/11 14:54:14 by abouramt         ###   ########.fr       */
+/*   Updated: 2023/12/13 17:49:21 by abouramt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,8 +102,8 @@ char	*get_next_line(int fd)
 	static char	*str[OPEN_MAX];
 	char		*res;
 
-	if (BUFFER_SIZE <= 0 || fd < 0 ||
-		fd >= OPEN_MAX || BUFFER_SIZE >= 2147483647)
+	if (BUFFER_SIZE <= 0 || BUFFER_SIZE == 2147483647
+		|| fd < 0 || fd >= OPEN_MAX)
 		return (NULL);
 	str[fd] = get_my_line(fd, str[fd]);
 	if (!str[fd])
